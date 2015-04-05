@@ -1,0 +1,15 @@
+{"properties": [
+  {
+    "name": "propertyDecryption.password",
+    "type": "java.lang.String",
+    "description": "Password to use to decrypt property values",
+    "sourceType": "eu.hinsch.spring.propertiesdecryptor.DecryptingPropertySourcesPlaceholderConfigurer"
+  },
+  {
+    "name": "propertyDecryption.prefix",
+    "type": "java.lang.String",
+    "description": "Marker that the property value should be decrypted (must be at the beginning of the text",
+    "sourceType": "eu.hinsch.spring.propertiesdecryptor.DecryptingPropertySourcesPlaceholderConfigurer",
+    "defaultValue": "{cypher}"
+  }
+]}
