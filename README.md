@@ -7,7 +7,7 @@ Used algorithm: PBEWithMD5AndDES
 
 ## Gradle dependency
 ```
-runtime('eu.hinsch:spring-property-decyrpter:0.1.0')
+runtime('eu.hinsch:spring-properties-decrypter:0.1.0')
 ```
 
 ## Maven dependency
