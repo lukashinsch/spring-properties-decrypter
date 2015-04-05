@@ -1,26 +1,15 @@
-buildscript {
-    ext {
-        springBootVersion = '1.2.3.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
-        classpath("io.spring.gradle:dependency-management-plugin:0.4.1.RELEASE")
-    }
-}
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea' 
-apply plugin: 'spring-boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+
+group = 'eu.hinsch'
+version = '0.1.0'
 
 jar {
     baseName = 'spring-properties-decrypter'
-    version = '0.0.1-SNAPSHOT'
+    version = project.version
 }
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -30,20 +19,77 @@ repositories {
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter:1.2.3.RELEASE")
     compile("org.jasypt:jasypt:1.9.2")
-    testCompile("org.springframework.boot:spring-boot-starter-test") 
-}
-
-
-eclipse {
-    classpath {
-         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-    }
+    testCompile("org.springframework.boot:spring-boot-starter-test:1.2.3.RELEASE")
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
+}
+
+if (System.getenv('CI') != 'true') {
+
+    apply plugin: 'signing'
+    apply plugin: 'maven'
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from tasks.javadoc.destinationDir
+    }
+
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allSource
+        classifier = 'sources'
+    }
+
+    artifacts {
+        archives jar
+        archives javadocJar
+        archives sourcesJar
+    }
+
+    signing {
+        sign configurations.archives
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+
+                pom.project {
+                    name 'spring-properties-decryptor'
+                    packaging 'jar'
+                    description 'simple logfile viewer as spring boot actuator endpoint'
+                    url 'https://github.com/lukashinsch/spring-properties-decryptor/'
+
+                    scm {
+                        url 'scm:git@github.com:lukashinsch/spring-properties-decryptor.git'
+                        connection 'scm:git@github.com:lukashinsch/spring-properties-decryptor.git'
+                        developerConnection 'scm:git@github.com:lukashinsch/spring-properties-decryptor.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'MIT License'
+                            url 'http://www.opensource.org/licenses/mit-license.php'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'lukashinsch'
+                            name 'Lukas Hinsch'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
