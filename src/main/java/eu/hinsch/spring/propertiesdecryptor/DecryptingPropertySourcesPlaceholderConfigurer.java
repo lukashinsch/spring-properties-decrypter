@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -17,8 +18,6 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by lh on 02/04/15.
  */
-@Component
-@ConditionalOnProperty(DecryptingPropertySourcesPlaceholderConfigurer.PASSWORD_PROPERTY)
 public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySourcesPlaceholderConfigurer {
     static final String PASSWORD_PROPERTY = "propertyDecryption.password";
 
@@ -45,7 +44,7 @@ public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySour
                 .map(source -> (MapPropertySource) source)
                 .map(PropertySource::getSource)
                 .flatMap(map -> map.entrySet().stream())
-                .map(entry -> entry.getKey())
+                .map(Map.Entry::getKey)
                 .filter(key -> isEncrypted(environment.getProperty(key)))
                 .collect(toList());
     }
