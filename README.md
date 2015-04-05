@@ -1,7 +1,7 @@
 # spring-properties-decrypter
 Transparently decrypt property values to be used in spring environment
 
-Used algorithm: PBEWithMD5AndDES
+Used algorithm: PBEWithMD5AndDES (does not use stronger encryption to allow running in default JRE)
 
 # Howto use
 
