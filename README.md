@@ -24,4 +24,12 @@ Set property 'propertyDecryption.password' via environment or system property to
 
 ## Encrpted properties
 Define any spring environment property anywhere it can be defined (application*.properties/yaml, system, environment, command line...) and insert encrypted value like this:
+```
 myProperty={cypher}ENCRYPTEDVALUERAWDATA
+```
+
+## Alternative prefix
+To use a prefix other than '{cypher}' define via
+```
+propertyDecryption.prefix=MY-PREFIX
+```
