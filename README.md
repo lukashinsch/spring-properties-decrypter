@@ -7,7 +7,7 @@ Used algorithm: PBEWithMD5AndDES
 
 ## Gradle dependency
 ```
-runtime('eu.hinsch:spring-properties-decrypter:0.1.0')
+runtime('eu.hinsch:spring-properties-decrypter:0.1.1')
 ```
 
 ## Maven dependency
@@ -15,7 +15,7 @@ runtime('eu.hinsch:spring-properties-decrypter:0.1.0')
 <dependency>
   <groupId>eu.hinsch</groupId>
   <artifactId>spring-properties-decrypter</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
 </dependency>
 ```
 
