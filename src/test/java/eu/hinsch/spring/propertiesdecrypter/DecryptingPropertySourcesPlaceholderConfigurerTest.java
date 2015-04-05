@@ -1,4 +1,4 @@
-package eu.hinsch.spring.propertiesdecryptor;
+package eu.hinsch.spring.propertiesdecrypter;
 
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.junit.After;

@@ -1,4 +1,4 @@
-package eu.hinsch.spring.propertiesdecryptor;
+package eu.hinsch.spring.propertiesdecrypter;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +9,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * Created by lh on 05/04/15.
  */
 @Configuration
-public class PropertiesDecryptorAutoConfiguration {
+public class PropertiesDecrypterAutoConfiguration {
 
     @ConditionalOnProperty(DecryptingPropertySourcesPlaceholderConfigurer.PASSWORD_PROPERTY)
     @Bean

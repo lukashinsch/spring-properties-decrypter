@@ -3,7 +3,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 
 group = 'eu.hinsch'
-version = '0.1.1'
+version = '0.1.2'
 
 jar {
     baseName = 'spring-properties-decrypter'
@@ -14,6 +14,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -63,15 +64,15 @@ if (System.getenv('CI') != 'true') {
                 }
 
                 pom.project {
-                    name 'spring-properties-decryptor'
+                    name 'spring-properties-decrypter'
                     packaging 'jar'
                     description 'simple logfile viewer as spring boot actuator endpoint'
-                    url 'https://github.com/lukashinsch/spring-properties-decryptor/'
+                    url 'https://github.com/lukashinsch/spring-properties-decrypter/'
 
                     scm {
-                        url 'scm:git@github.com:lukashinsch/spring-properties-decryptor.git'
-                        connection 'scm:git@github.com:lukashinsch/spring-properties-decryptor.git'
-                        developerConnection 'scm:git@github.com:lukashinsch/spring-properties-decryptor.git'
+                        url 'scm:git@github.com:luekashinsch/spring-properties-decrypter.git'
+                        connection 'scm:git@github.com:lukashinsch/spring-properties-decrypter.git'
+                        developerConnection 'scm:git@github.com:lukashinsch/spring-properties-decrypter.git'
                     }
 
                     licenses {

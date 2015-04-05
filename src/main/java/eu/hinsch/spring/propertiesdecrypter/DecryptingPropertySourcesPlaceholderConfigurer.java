@@ -1,10 +1,8 @@
-package eu.hinsch.spring.propertiesdecryptor;
+package eu.hinsch.spring.propertiesdecrypter;
 
 import org.jasypt.util.text.BasicTextEncryptor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.*;
-import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.List;
