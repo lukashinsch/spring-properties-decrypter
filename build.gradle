@@ -3,7 +3,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 
 group = 'eu.hinsch'
-version = '0.1.2'
+version = '0.1.3'
 
 jar {
     baseName = 'spring-properties-decrypter'
@@ -20,9 +20,9 @@ repositories {
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter:1.2.3.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter:1.2.0.RELEASE")
     compile("org.jasypt:jasypt:1.9.2")
-    testCompile("org.springframework.boot:spring-boot-starter-test:1.2.3.RELEASE")
+    testCompile("org.springframework.boot:spring-boot-starter-test:1.2.0.RELEASE")
 }
 
 task wrapper(type: Wrapper) {

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.3
+- Relaxed spring dependency requirements a bit
+
 ## 0.1.2
 - Clean up naming (decryptor -> decrypter)
 
