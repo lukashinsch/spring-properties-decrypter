@@ -30,7 +30,7 @@ import static org.junit.internal.matchers.ThrowableCauseMatcher.hasCause;
 @SpringApplicationConfiguration(classes = DecryptingPropertySourcesPlaceholderConfigurerTest.TestConfig.class)
 public class DecryptingPropertySourcesPlaceholderConfigurerTest {
 
-    private static final String CODE = "Cn0fGsAEINM1+FsMf0evHob485wqmPwT";
+    private static final String CODE = "7M2qVa5OHzn43YWGUE6R2Q==";
     private static final String ENCRYPTED_VALUE = "{cypher}" + CODE;
     private static final String SECRET = "MY-SECRET";
     private List<String> systemProperties = new ArrayList<>();
@@ -101,6 +101,8 @@ public class DecryptingPropertySourcesPlaceholderConfigurerTest {
         // then
         assertThat(environment.getProperty("secretProperty"), is(SECRET));
     }
+
+    // TODO test case to set algorithm from config
 
     private void setSystemProperty(String property, String value) {
         System.setProperty(property, value);

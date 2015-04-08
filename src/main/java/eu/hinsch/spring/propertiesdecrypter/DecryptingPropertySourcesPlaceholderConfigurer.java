@@ -1,6 +1,7 @@
 package eu.hinsch.spring.propertiesdecrypter;
 
-import org.jasypt.util.text.BasicTextEncryptor;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.salt.ZeroSaltGenerator;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.*;
 
@@ -18,13 +19,14 @@ import static java.util.stream.Collectors.toList;
  */
 public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySourcesPlaceholderConfigurer {
     static final String PASSWORD_PROPERTY = "propertyDecryption.password";
+    public static final String DEFAULT_ALGORITHM = "PBEWithMD5AndDES";
 
     private String prefix;
-    private BasicTextEncryptor encryptor = new BasicTextEncryptor();
+    private StandardPBEStringEncryptor encrypter = new StandardPBEStringEncryptor();
 
     @Override
     public void setEnvironment(final Environment environment) {
-        encryptor.setPassword(environment.getProperty(PASSWORD_PROPERTY));
+        initializeEncrypter(environment);
         prefix = environment.getProperty("propertyDecryption.prefix", "{cypher}");
 
         final ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
@@ -34,6 +36,12 @@ public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySour
         addDecryptedValues(environment, propertySources, encryptedKeys);
 
         super.setEnvironment(environment);
+    }
+
+    private void initializeEncrypter(Environment environment) {
+        encrypter.setAlgorithm(environment.getProperty("propertyDecryption.algorithm", DEFAULT_ALGORITHM));
+        encrypter.setSaltGenerator(new ZeroSaltGenerator());
+        encrypter.setPassword(environment.getRequiredProperty(PASSWORD_PROPERTY));
     }
 
     private List<String> getKeysOfEncryptedPropertyValues(Environment environment, MutablePropertySources propertySources) {
@@ -68,7 +76,7 @@ public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySour
 
     private String decryptPropertyValue(String encryptedPropertyValue) {
         String cypher = getCypher(encryptedPropertyValue);
-        return encryptor.decrypt(cypher);
+        return encrypter.decrypt(cypher);
     }
 
     private boolean isEncrypted(Object propertyValue) {

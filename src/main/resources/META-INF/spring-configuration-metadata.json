@@ -11,5 +11,12 @@
     "description": "Marker that the property value should be decrypted (must be at the beginning of the text",
     "sourceType": "eu.hinsch.spring.propertiesdecrypter.DecryptingPropertySourcesPlaceholderConfigurer",
     "defaultValue": "{cypher}"
+  },
+  {
+    "name": "propertyDecryption.algorithm",
+    "type": "java.lang.String",
+    "description": "Decryption Algorithm",
+    "sourceType": "eu.hinsch.spring.propertiesdecrypter.DecryptingPropertySourcesPlaceholderConfigurer",
+    "defaultValue": "PBEWithMD5AndDES"
   }
 ]}
