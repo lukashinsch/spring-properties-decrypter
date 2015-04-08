@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.5
+- Change default prefix to {encrypted}
+
 ## 0.1.4
 - Make algorithm configurable
 - Don't use salt generator to decrypt passwords
