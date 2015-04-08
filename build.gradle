@@ -3,7 +3,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 
 group = 'eu.hinsch'
-version = '0.1.3'
+version = '0.1.4'
 
 jar {
     baseName = 'spring-properties-decrypter'

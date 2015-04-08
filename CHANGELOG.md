@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+- Make algorithm configurable
+- Don't use salt generator to decrypt passwords
+
 ## 0.1.3
 - Relaxed spring dependency requirements a bit
 

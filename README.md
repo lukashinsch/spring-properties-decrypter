@@ -1,13 +1,11 @@
 # spring-properties-decrypter
 Transparently decrypt property values to be used in spring environment
 
-Used algorithm: PBEWithMD5AndDES (does not use stronger encryption to allow running in default JRE)
-
 # Howto use
 
 ## Gradle dependency
 ```
-runtime('eu.hinsch:spring-properties-decrypter:0.1.2')
+runtime('eu.hinsch:spring-properties-decrypter:0.1.4')
 ```
 
 ## Maven dependency
@@ -15,7 +13,7 @@ runtime('eu.hinsch:spring-properties-decrypter:0.1.2')
 <dependency>
   <groupId>eu.hinsch</groupId>
   <artifactId>spring-properties-decrypter</artifactId>
-  <version>0.1.2</version>
+  <version>0.1.4</version>
 </dependency>
 ```
 
@@ -33,3 +31,12 @@ To use a prefix other than '{cypher}' define via
 ```
 propertyDecryption.prefix=MY-PREFIX
 ```
+
+## Encryption algorithm
+By default uses PBEWithMD5AndDES (to allow running in default JRE).
+
+To configure alternative algorithm:
+```
+propertyDecryption.algorithm=ALGORITHMNAME
+```
+
