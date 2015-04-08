@@ -27,7 +27,7 @@ public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySour
     @Override
     public void setEnvironment(final Environment environment) {
         initializeEncrypter(environment);
-        prefix = environment.getProperty("propertyDecryption.prefix", "{cypher}");
+        prefix = environment.getProperty("propertyDecryption.prefix", "{encrypted}");
 
         final ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
         final MutablePropertySources propertySources = configurableEnvironment.getPropertySources();

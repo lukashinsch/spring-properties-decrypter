@@ -5,7 +5,7 @@ Transparently decrypt property values to be used in spring environment
 
 ## Gradle dependency
 ```
-runtime('eu.hinsch:spring-properties-decrypter:0.1.4')
+runtime('eu.hinsch:spring-properties-decrypter:0.1.5')
 ```
 
 ## Maven dependency
@@ -13,7 +13,7 @@ runtime('eu.hinsch:spring-properties-decrypter:0.1.4')
 <dependency>
   <groupId>eu.hinsch</groupId>
   <artifactId>spring-properties-decrypter</artifactId>
-  <version>0.1.4</version>
+  <version>0.1.5</version>
 </dependency>
 ```
 
@@ -23,11 +23,11 @@ Set property 'propertyDecryption.password' via environment or system property to
 ## Encrpted properties
 Define any spring environment property anywhere it can be defined (application*.properties/yaml, system, environment, command line...) and insert encrypted value like this:
 ```
-myProperty={cypher}ENCRYPTEDVALUERAWDATA
+myProperty={encrypted}ENCRYPTEDVALUERAWDATA
 ```
 
 ## Alternative prefix
-To use a prefix other than '{cypher}' define via
+To use a prefix other than '{encrypted}' define via
 ```
 propertyDecryption.prefix=MY-PREFIX
 ```
