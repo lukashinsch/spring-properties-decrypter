@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySourcesPlaceholderConfigurer {
     static final String PASSWORD_PROPERTY = "propertyDecryption.password";
     public static final String DEFAULT_ALGORITHM = "PBEWithMD5AndDES";
+    public static final String PREFIX_KEY = "propertyDecryption.prefix";
 
     private String prefix;
     private StandardPBEStringEncryptor encrypter = new StandardPBEStringEncryptor();
@@ -27,7 +28,7 @@ public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySour
     @Override
     public void setEnvironment(final Environment environment) {
         initializeEncrypter(environment);
-        prefix = environment.getProperty("propertyDecryption.prefix", "{encrypted}");
+        prefix = environment.getProperty(PREFIX_KEY, "{encrypted}");
 
         final ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
         final MutablePropertySources propertySources = configurableEnvironment.getPropertySources();
@@ -51,6 +52,7 @@ public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySour
                 .map(PropertySource::getSource)
                 .flatMap(map -> map.entrySet().stream())
                 .map(Map.Entry::getKey)
+                .filter(key -> !PREFIX_KEY.equals(key))
                 .filter(key -> isEncrypted(environment.getProperty(key)))
                 .collect(toList());
     }

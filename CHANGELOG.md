@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.6
+- propertyDecryption.prefix no longer removes itself (fixes [#2](https://github.com/lukashinsch/spring-properties-decrypter/issues/2))
+
 ## 0.1.5
 - Change default prefix to {encrypted}
 

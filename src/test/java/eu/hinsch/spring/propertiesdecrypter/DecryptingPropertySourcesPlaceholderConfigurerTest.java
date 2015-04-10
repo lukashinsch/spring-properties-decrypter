@@ -53,6 +53,11 @@ public class DecryptingPropertySourcesPlaceholderConfigurerTest {
         public void shouldUsePrefixOverride() {
             assertThat(environment.getProperty("secretProperty"), is(SECRET));
         }
+
+        @Test
+        public void shouldNotChangePrefixProperty() {
+            assertThat(environment.getProperty("propertyDecryption.prefix"), is("---SOME-PREFIX---"));
+        }
     }
 
     @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
