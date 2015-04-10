@@ -1,3 +1,8 @@
+[![Coverage Status](https://coveralls.io/repos/lukashinsch/spring-properties-decrypter/badge.svg?branch=master)](https://coveralls.io/r/lukashinsch/spring-properties-decrypter?branch=master)
+[![Build Status](https://travis-ci.org/lukashinsch/spring-properties-decrypter.svg?branch=master)](https://travis-ci.org/lukashinsch/spring-properties-decrypter)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/eu.hinsch/spring-properties-decrypter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/eu.hinsch/spring-properties-decrypter/)
+
+
 # spring-properties-decrypter
 Transparently decrypt property values to be used in spring environment
 
