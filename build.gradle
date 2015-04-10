@@ -1,6 +1,16 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1")
+    }
+}
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'eu.hinsch'
 version = '0.1.5'
@@ -23,6 +33,20 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter:1.2.0.RELEASE")
     compile("org.jasypt:jasypt:1.9.2")
     testCompile("org.springframework.boot:spring-boot-starter-test:1.2.0.RELEASE")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
+
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "full" // show assertion errors in build
+    }
 }
 
 task wrapper(type: Wrapper) {

@@ -1,123 +1,66 @@
 package eu.hinsch.spring.propertiesdecrypter;
 
-import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestContextManager;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isA;
 import static org.junit.Assert.assertThat;
-import static org.junit.internal.matchers.ThrowableCauseMatcher.hasCause;
 
 /**
  * Created by lh on 04/04/15.
  */
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@SpringApplicationConfiguration(classes = DecryptingPropertySourcesPlaceholderConfigurerTest.TestConfig.class)
+@RunWith(Enclosed.class)
 public class DecryptingPropertySourcesPlaceholderConfigurerTest {
 
     private static final String CODE = "7M2qVa5OHzn43YWGUE6R2Q==";
     private static final String ENCRYPTED_VALUE = "{encrypted}" + CODE;
     private static final String SECRET = "MY-SECRET";
-    private List<String> systemProperties = new ArrayList<>();
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
-    @Autowired
-    private Environment environment;
-    @Autowired
-    private ConfigurableApplicationContext applicationContext;
-
-    private TestContextManager testContextManager;
 
     @SpringBootApplication
-    static class TestConfig {
+    static class TestAppConfig {
     }
 
-    @Test
-    public void shouldDecodeSystemProperty() throws Exception {
-        // given
-        setSystemProperty("secretProperty", ENCRYPTED_VALUE);
-
-        // when
-        startupContext();
-
-        // then
-        assertThat(environment.getProperty("secretProperty"), is(SECRET));
+    @TestPropertySource(properties = "secretProperty = " + ENCRYPTED_VALUE)
+    public static class WithSecretProperty extends TestConfig {
+        @Test
+        public void shouldDecodeSystemProperty() throws Exception {
+            assertThat(environment.getProperty("secretProperty"), is(SECRET));
+        }
     }
 
-    @Test
-    public void shouldDecryptCorrectPropertyOnConflict() throws Exception {
-        // given
-        setSystemProperty("conflictingProperty", ENCRYPTED_VALUE);
-
-        // when
-        startupContext();
-
-        //
-        assertThat(environment.getProperty("conflictingProperty"), is(SECRET));
+    @TestPropertySource(properties = "conflictingProperty = " + ENCRYPTED_VALUE)
+    public static class WithConflictingProperty extends TestConfig {
+        @Test
+        public void shouldDecryptCorrectPropertyOnConflict() throws Exception {
+            assertThat(environment.getProperty("conflictingProperty"), is(SECRET));
+        }
     }
 
-    @Test
-    public void shouldThrowExceptionIfPasswordIsIncorrect() throws Exception {
-        // given
-        setSystemProperty("propertyEncryption.password", "NOT-THE-CORRECT-PASSWORD");
-        setSystemProperty("somethingToDecrypt", ENCRYPTED_VALUE);
-        exception.expect(IllegalStateException.class);
-        // meaningful exception is wrapped twice inside spring errors
-        exception.expectCause(hasCause(isA(EncryptionOperationNotPossibleException.class)));
-
-        // when
-        startupContext();
-
-        // then -> exception
+    @TestPropertySource(properties = {
+            "propertyDecryption.prefix = ---SOME-PREFIX---",
+            "secretProperty = ---SOME-PREFIX---" + CODE
+    })
+    public static class WithPrefix extends TestConfig {
+        @Test
+        public void shouldUsePrefixOverride() {
+            assertThat(environment.getProperty("secretProperty"), is(SECRET));
+        }
     }
 
-    @Test
-    @Ignore("TODO not yet working")
-    public void shouldUsePrefixOverride() throws Exception {
-        // given
-        setSystemProperty("propertyDecryption.prefix", "{cypher}");
-        setSystemProperty("secretProperty", ENCRYPTED_VALUE);
-
-        // when
-        startupContext();
-
-        // then
-        assertThat(environment.getProperty("secretProperty"), is(SECRET));
-    }
-
-    // TODO test case to set algorithm from config
-
-    private void setSystemProperty(String property, String value) {
-        System.setProperty(property, value);
-        systemProperties.add(property);
-    }
-
-    // manual app startup because we want to set properties before
-    private void startupContext() throws Exception {
-        testContextManager = new TestContextManager(this.getClass());
-        testContextManager.prepareTestInstance(this);
-        testContextManager.registerTestExecutionListeners(new DirtiesContextTestExecutionListener());
-    }
-
-    @After
-    public void cleanUp() {
-        systemProperties.stream().forEach(System::clearProperty);
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @SpringApplicationConfiguration(classes = DecryptingPropertySourcesPlaceholderConfigurerTest.TestAppConfig.class)
+    @RunWith(SpringJUnit4ClassRunner.class)
+    @TestPropertySource(properties = "propertyDecryption.password = MYPASSWORD")
+    static abstract class TestConfig {
+        @Autowired
+        protected Environment environment;
     }
 }
