@@ -31,7 +31,7 @@ import static org.junit.internal.matchers.ThrowableCauseMatcher.hasCause;
 public class DecryptingPropertySourcesPlaceholderConfigurerTest {
 
     private static final String CODE = "7M2qVa5OHzn43YWGUE6R2Q==";
-    private static final String ENCRYPTED_VALUE = "{cypher}" + CODE;
+    private static final String ENCRYPTED_VALUE = "{encrypted}" + CODE;
     private static final String SECRET = "MY-SECRET";
     private List<String> systemProperties = new ArrayList<>();
 
