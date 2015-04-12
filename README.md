@@ -4,7 +4,7 @@
 
 
 # spring-properties-decrypter
-Transparently decrypt property values to be used in spring environment
+Transparently decrypt property values to be used in spring environment using [jasypt](http://www.jasypt.org/) library.
 
 # Howto use
 
@@ -45,3 +45,5 @@ To configure alternative algorithm:
 propertyDecryption.algorithm=ALGORITHMNAME
 ```
 
+## Howto encrypt passwords
+See http://www.jasypt.org/cli.html
