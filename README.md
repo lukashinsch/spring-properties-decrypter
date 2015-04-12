@@ -46,4 +46,9 @@ propertyDecryption.algorithm=ALGORITHMNAME
 ```
 
 ## Howto encrypt passwords
-See http://www.jasypt.org/cli.html
+Download the jasypt distribution from http://www.jasypt.org/download.html
+Run from the bin folder
+```
+encrypt [verbose=true] algorithm=PBEWithMD5AndDES saltGeneratorClassName=org.jasypt.salt.ZeroSaltGenerator
+```
+For more details http://www.jasypt.org/cli.html
