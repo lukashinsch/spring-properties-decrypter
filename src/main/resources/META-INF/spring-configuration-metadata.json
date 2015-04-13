@@ -3,20 +3,20 @@
     "name": "propertyDecryption.password",
     "type": "java.lang.String",
     "description": "Password to use to decrypt property values",
-    "sourceType": "eu.hinsch.spring.propertiesdecrypter.DecryptingPropertySourcesPlaceholderConfigurer"
+    "sourceType": "eu.hinsch.spring.propertiesdecrypter.DecryptingPropertiesApplicationListener"
   },
   {
     "name": "propertyDecryption.prefix",
     "type": "java.lang.String",
     "description": "Marker that the property value should be decrypted (must be at the beginning of the text",
-    "sourceType": "eu.hinsch.spring.propertiesdecrypter.DecryptingPropertySourcesPlaceholderConfigurer",
+    "sourceType": "eu.hinsch.spring.propertiesdecrypter.DecryptingPropertiesApplicationListener",
     "defaultValue": "{cypher}"
   },
   {
     "name": "propertyDecryption.algorithm",
     "type": "java.lang.String",
     "description": "Decryption Algorithm",
-    "sourceType": "eu.hinsch.spring.propertiesdecrypter.DecryptingPropertySourcesPlaceholderConfigurer",
+    "sourceType": "eu.hinsch.spring.propertiesdecrypter.DecryptingPropertiesApplicationListener",
     "defaultValue": "PBEWithMD5AndDES"
   }
 ]}

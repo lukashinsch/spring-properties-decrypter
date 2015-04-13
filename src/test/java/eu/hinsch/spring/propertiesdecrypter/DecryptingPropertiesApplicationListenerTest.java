@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
  * Created by lh on 04/04/15.
  */
 @RunWith(Enclosed.class)
-public class DecryptingPropertySourcesPlaceholderConfigurerTest {
+public class DecryptingPropertiesApplicationListenerTest {
 
     private static final String CODE = "7M2qVa5OHzn43YWGUE6R2Q==";
     private static final String ENCRYPTED_VALUE = "{encrypted}" + CODE;
@@ -61,7 +61,7 @@ public class DecryptingPropertySourcesPlaceholderConfigurerTest {
     }
 
     @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-    @SpringApplicationConfiguration(classes = DecryptingPropertySourcesPlaceholderConfigurerTest.TestAppConfig.class)
+    @SpringApplicationConfiguration(classes = DecryptingPropertiesApplicationListenerTest.TestAppConfig.class)
     @RunWith(SpringJUnit4ClassRunner.class)
     @TestPropertySource(properties = "propertyDecryption.password = MYPASSWORD")
     static abstract class TestConfig {

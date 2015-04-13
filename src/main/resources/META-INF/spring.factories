@@ -1,3 +1,2 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-eu.hinsch.spring.propertiesdecrypter.PropertiesDecrypterAutoConfiguration
+org.springframework.context.ApplicationListener=\
+eu.hinsch.spring.propertiesdecrypter.DecryptingPropertiesApplicationListener

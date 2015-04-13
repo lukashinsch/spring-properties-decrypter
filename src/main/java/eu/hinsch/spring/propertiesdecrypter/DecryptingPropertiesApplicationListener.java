@@ -2,7 +2,10 @@ package eu.hinsch.spring.propertiesdecrypter;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.salt.ZeroSaltGenerator;
+import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.*;
 
 import java.util.Iterator;
@@ -17,7 +20,8 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by lh on 02/04/15.
  */
-public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySourcesPlaceholderConfigurer {
+public class DecryptingPropertiesApplicationListener
+        implements ApplicationListener<ApplicationEnvironmentPreparedEvent>, Ordered {
     static final String PASSWORD_PROPERTY = "propertyDecryption.password";
     public static final String DEFAULT_ALGORITHM = "PBEWithMD5AndDES";
     public static final String PREFIX_KEY = "propertyDecryption.prefix";
@@ -26,17 +30,15 @@ public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySour
     private StandardPBEStringEncryptor encrypter = new StandardPBEStringEncryptor();
 
     @Override
-    public void setEnvironment(final Environment environment) {
+    public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
+        ConfigurableEnvironment environment = event.getEnvironment();
         initializeEncrypter(environment);
         prefix = environment.getProperty(PREFIX_KEY, "{encrypted}");
 
-        final ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
-        final MutablePropertySources propertySources = configurableEnvironment.getPropertySources();
+        final MutablePropertySources propertySources = environment.getPropertySources();
 
         List<String> encryptedKeys = getKeysOfEncryptedPropertyValues(environment, propertySources);
         addDecryptedValues(environment, propertySources, encryptedKeys);
-
-        super.setEnvironment(environment);
     }
 
     private void initializeEncrypter(Environment environment) {
@@ -87,5 +89,10 @@ public class DecryptingPropertySourcesPlaceholderConfigurer extends PropertySour
 
     private String getCypher(String encryptedPropertyValue) {
         return encryptedPropertyValue.substring(prefix.length());
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
     }
 }
