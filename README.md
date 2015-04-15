@@ -25,7 +25,10 @@ runtime('eu.hinsch:spring-properties-decrypter:0.1.6')
 ```
 
 ## Decryption password
-Set property 'propertyDecryption.password' via environment or system property to decryption key
+Set decryption key via environment or system property
+```
+propertyDecryption.password=SECRETPASSWORD
+```
 
 ## Encrpted properties
 Define any spring environment property anywhere it can be defined (application*.properties/yaml, system, environment, command line...) and insert encrypted value like this:
