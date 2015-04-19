@@ -6,13 +6,11 @@
 # spring-properties-decrypter
 Transparently decrypt property values to be used in spring environment using [jasypt](http://www.jasypt.org/) library.
 
-Note: rel. 0.1.7 seems to be broken, use 0.1.6 for now.
-
 # Howto use
 
 ## Gradle dependency
 ```
-runtime('eu.hinsch:spring-properties-decrypter:0.1.6')
+runtime('eu.hinsch:spring-properties-decrypter:0.1.8')
 ```
 
 ## Maven dependency
@@ -20,7 +18,7 @@ runtime('eu.hinsch:spring-properties-decrypter:0.1.6')
 <dependency>
   <groupId>eu.hinsch</groupId>
   <artifactId>spring-properties-decrypter</artifactId>
-  <version>0.1.6</version>
+  <version>0.1.8</version>
 </dependency>
 ```
 

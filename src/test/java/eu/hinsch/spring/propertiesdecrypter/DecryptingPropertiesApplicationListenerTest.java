@@ -60,6 +60,13 @@ public class DecryptingPropertiesApplicationListenerTest {
         }
     }
 
+    public static class WithDefaults extends TestConfig {
+        @Test
+        public void shouldDecryptPropertyFromApplicationProperties() {
+            assertThat(environment.getProperty("secretInApplicationProperties"), is(SECRET));
+        }
+    }
+
     @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     @SpringApplicationConfiguration(classes = DecryptingPropertiesApplicationListenerTest.TestAppConfig.class)
     @RunWith(SpringJUnit4ClassRunner.class)

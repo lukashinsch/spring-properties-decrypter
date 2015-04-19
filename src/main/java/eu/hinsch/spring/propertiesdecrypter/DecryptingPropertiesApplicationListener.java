@@ -15,6 +15,7 @@ import java.util.Properties;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -49,11 +50,10 @@ public class DecryptingPropertiesApplicationListener
 
     private List<String> getKeysOfEncryptedPropertyValues(Environment environment, MutablePropertySources propertySources) {
         Stream<PropertySource<?>> stream = getPropertySourceStream(propertySources);
-        return stream.filter(source -> source instanceof MapPropertySource)
-                .map(source -> (MapPropertySource) source)
-                .map(PropertySource::getSource)
-                .flatMap(map -> map.entrySet().stream())
-                .map(Map.Entry::getKey)
+
+        return stream.filter(source -> source instanceof EnumerablePropertySource)
+                .map(source -> (EnumerablePropertySource)source)
+                .flatMap(source -> asList(source.getPropertyNames()).stream())
                 .filter(key -> !PREFIX_KEY.equals(key))
                 .filter(key -> isEncrypted(environment.getProperty(key)))
                 .collect(toList());

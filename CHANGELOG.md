@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.8
+- Bugfix: application listener was not working for most types of property sources (fixes [#4](https://github.com/lukashinsch/spring-properties-decrypter/issues/4))
+
 ## 0.1.7
 - Switched from PropertySourcesPlaceholderConfigurer to ApplicationListener to avoid possible conflicts
 
