@@ -4,6 +4,8 @@
 
 
 # spring-properties-decrypter
+
+[![Join the chat at https://gitter.im/lukashinsch/spring-properties-decrypter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/lukashinsch/spring-properties-decrypter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Transparently decrypt property values to be used in spring environment using [jasypt](http://www.jasypt.org/) library.
 
 # Howto use
