@@ -1,11 +1,9 @@
 [![Coverage Status](https://coveralls.io/repos/lukashinsch/spring-properties-decrypter/badge.svg?branch=master)](https://coveralls.io/r/lukashinsch/spring-properties-decrypter?branch=master)
 [![Build Status](https://travis-ci.org/lukashinsch/spring-properties-decrypter.svg?branch=master)](https://travis-ci.org/lukashinsch/spring-properties-decrypter)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/eu.hinsch/spring-properties-decrypter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/eu.hinsch/spring-properties-decrypter/)
-
+[![Join the chat at https://gitter.im/lukashinsch/spring-properties-decrypter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/lukashinsch/spring-properties-decrypter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # spring-properties-decrypter
-
-[![Join the chat at https://gitter.im/lukashinsch/spring-properties-decrypter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/lukashinsch/spring-properties-decrypter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Transparently decrypt property values to be used in spring environment using [jasypt](http://www.jasypt.org/) library.
 
 # Howto use
