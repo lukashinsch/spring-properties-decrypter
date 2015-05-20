@@ -52,6 +52,6 @@ propertyDecryption.algorithm=ALGORITHMNAME
 Download the jasypt distribution from http://www.jasypt.org/download.html
 Run from the bin folder
 ```
-encrypt [verbose=true] algorithm=PBEWithMD5AndDES saltGeneratorClassName=org.jasypt.salt.ZeroSaltGenerator
+encrypt [verbose=true] algorithm=PBEWithMD5AndDES saltGeneratorClassName=org.jasypt.salt.ZeroSaltGenerator password=... input=...
 ```
 For more details http://www.jasypt.org/cli.html
