@@ -41,7 +41,7 @@ propertyDecryption.prefix=MY-PREFIX
 ```
 
 ## Encryption algorithm
-By default uses PBEWithMD5AndDES (to allow running in default JRE).
+By default uses PBEWithMD5AndDES (to allow running in default JRE). Note that this encryption is (at least with lots of dedicated resources) breakable. Stronger encryption is currently not working due to a bug in the underlying library.
 
 To configure alternative algorithm:
 ```
