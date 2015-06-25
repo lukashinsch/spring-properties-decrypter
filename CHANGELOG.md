@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.9
+- Provide information on what property cannot be decrypted (fixes [#8](https://github.com/lukashinsch/spring-properties-decrypter/issues/8))
+
 ## 0.1.8
 - Bugfix: application listener was not working for most types of property sources (fixes [#4](https://github.com/lukashinsch/spring-properties-decrypter/issues/4))
 

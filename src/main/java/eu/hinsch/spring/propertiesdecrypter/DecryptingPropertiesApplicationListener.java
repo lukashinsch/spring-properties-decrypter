@@ -1,6 +1,7 @@
 package eu.hinsch.spring.propertiesdecrypter;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.jasypt.salt.ZeroSaltGenerator;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.context.ApplicationListener;
@@ -80,7 +81,12 @@ public class DecryptingPropertiesApplicationListener
 
     private String decryptPropertyValue(String encryptedPropertyValue) {
         String cypher = getCypher(encryptedPropertyValue);
-        return encrypter.decrypt(cypher);
+        try {
+            return encrypter.decrypt(cypher);
+        }
+        catch (EncryptionOperationNotPossibleException e) {
+            throw new RuntimeException("Unable to decrypt property value '" + encryptedPropertyValue + "'", e);
+        }
     }
 
     private boolean isEncrypted(Object propertyValue) {
