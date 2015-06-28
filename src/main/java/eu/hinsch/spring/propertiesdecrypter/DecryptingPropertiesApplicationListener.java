@@ -5,13 +5,11 @@ import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.jasypt.salt.ZeroSaltGenerator;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.*;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -50,14 +48,17 @@ public class DecryptingPropertiesApplicationListener
     }
 
     private List<String> getKeysOfEncryptedPropertyValues(Environment environment, MutablePropertySources propertySources) {
-        Stream<PropertySource<?>> stream = getPropertySourceStream(propertySources);
-
-        return stream.filter(source -> source instanceof EnumerablePropertySource)
+        return getPropertySourceStream(propertySources)
+                .filter(source -> source instanceof EnumerablePropertySource)
                 .map(source -> (EnumerablePropertySource)source)
                 .flatMap(source -> asList(source.getPropertyNames()).stream())
-                .filter(key -> !PREFIX_KEY.equals(key))
+                .filter(this::isNotEncryptionConfigProperty)
                 .filter(key -> isEncrypted(environment.getProperty(key)))
                 .collect(toList());
+    }
+
+    private boolean isNotEncryptionConfigProperty(String key) {
+        return !PREFIX_KEY.equals(key);
     }
 
     private Stream<PropertySource<?>> getPropertySourceStream(final MutablePropertySources propertySources) {
@@ -67,16 +68,17 @@ public class DecryptingPropertiesApplicationListener
     }
 
     private void addDecryptedValues(Environment environment, MutablePropertySources propertySources, List<String> encryptedKeys) {
-
         // TODO collect to properties?
         final Properties decryptedValues = new Properties();
-        encryptedKeys.stream().forEach(
-                key -> {
-                    String value = environment.getProperty(key);
-                    decryptedValues.put(key, decryptPropertyValue(value));
-                }
-        );
+        encryptedKeys.stream()
+                .forEach(key -> decryptAndAdd(environment, key, decryptedValues));
         propertySources.addFirst(new PropertiesPropertySource("decryptedValues", decryptedValues));
+    }
+
+    private void decryptAndAdd(Environment environment, String key, Properties decryptedValues) {
+        final String property = environment.getProperty(key);
+        final String propertyValue = decryptPropertyValue(property);
+        decryptedValues.put(key, propertyValue);
     }
 
     private String decryptPropertyValue(String encryptedPropertyValue) {
