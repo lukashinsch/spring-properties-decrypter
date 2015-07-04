@@ -9,13 +9,14 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.*;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by lh on 02/04/15.
@@ -37,7 +38,7 @@ public class DecryptingPropertiesApplicationListener
 
         final MutablePropertySources propertySources = environment.getPropertySources();
 
-        List<String> encryptedKeys = getKeysOfEncryptedPropertyValues(environment, propertySources);
+        Set<String> encryptedKeys = getKeysOfEncryptedPropertyValues(environment, propertySources);
         addDecryptedValues(environment, propertySources, encryptedKeys);
     }
 
@@ -47,14 +48,14 @@ public class DecryptingPropertiesApplicationListener
         encrypter.setPassword(environment.getRequiredProperty(PASSWORD_PROPERTY));
     }
 
-    private List<String> getKeysOfEncryptedPropertyValues(Environment environment, MutablePropertySources propertySources) {
+    private Set<String> getKeysOfEncryptedPropertyValues(Environment environment, MutablePropertySources propertySources) {
         return getPropertySourceStream(propertySources)
                 .filter(source -> source instanceof EnumerablePropertySource)
                 .map(source -> (EnumerablePropertySource)source)
                 .flatMap(source -> asList(source.getPropertyNames()).stream())
                 .filter(this::isNotEncryptionConfigProperty)
                 .filter(key -> isEncrypted(environment.getProperty(key)))
-                .collect(toList());
+                .collect(toSet());
     }
 
     private boolean isNotEncryptionConfigProperty(String key) {
@@ -67,18 +68,12 @@ public class DecryptingPropertiesApplicationListener
         return StreamSupport.stream(iterable.spliterator(), false);
     }
 
-    private void addDecryptedValues(Environment environment, MutablePropertySources propertySources, List<String> encryptedKeys) {
-        // TODO collect to properties?
-        final Properties decryptedValues = new Properties();
-        encryptedKeys.stream()
-                .forEach(key -> decryptAndAdd(environment, key, decryptedValues));
-        propertySources.addFirst(new PropertiesPropertySource("decryptedValues", decryptedValues));
-    }
-
-    private void decryptAndAdd(Environment environment, String key, Properties decryptedValues) {
-        final String property = environment.getProperty(key);
-        final String propertyValue = decryptPropertyValue(property);
-        decryptedValues.put(key, propertyValue);
+    private void addDecryptedValues(Environment environment, MutablePropertySources propertySources, Set<String> encryptedKeys) {
+        Map<String, Object> decryptedProperties = encryptedKeys.stream()
+                .collect(toMap(
+                        key -> key,
+                        key -> decryptPropertyValue(environment.getProperty(key))));
+        propertySources.addFirst(new MapPropertySource("decryptedValues", decryptedProperties));
     }
 
     private String decryptPropertyValue(String encryptedPropertyValue) {
