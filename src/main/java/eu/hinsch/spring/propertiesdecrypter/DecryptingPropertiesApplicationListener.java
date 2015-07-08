@@ -50,8 +50,8 @@ public class DecryptingPropertiesApplicationListener
 
     private Set<String> getKeysOfEncryptedPropertyValues(Environment environment, MutablePropertySources propertySources) {
         return getPropertySourceStream(propertySources)
-                .filter(source -> source instanceof EnumerablePropertySource)
-                .map(source -> (EnumerablePropertySource)source)
+                .filter(EnumerablePropertySource.class::isInstance)
+                .map(EnumerablePropertySource.class::cast)
                 .flatMap(source -> asList(source.getPropertyNames()).stream())
                 .filter(this::isNotEncryptionConfigProperty)
                 .filter(key -> isEncrypted(environment.getProperty(key)))
