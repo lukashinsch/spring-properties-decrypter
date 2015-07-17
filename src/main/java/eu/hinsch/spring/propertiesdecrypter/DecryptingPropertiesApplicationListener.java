@@ -49,7 +49,7 @@ public class DecryptingPropertiesApplicationListener
     }
 
     private Set<String> getKeysOfEncryptedPropertyValues(Environment environment, MutablePropertySources propertySources) {
-        return getPropertySourceStream(propertySources)
+        return streamFromIterator(propertySources.iterator())
                 .filter(EnumerablePropertySource.class::isInstance)
                 .map(EnumerablePropertySource.class::cast)
                 .flatMap(source -> asList(source.getPropertyNames()).stream())
@@ -62,8 +62,7 @@ public class DecryptingPropertiesApplicationListener
         return !PREFIX_KEY.equals(key);
     }
 
-    private Stream<PropertySource<?>> getPropertySourceStream(final MutablePropertySources propertySources) {
-        final Iterator<PropertySource<?>> iterator = propertySources.iterator();
+    private Stream<PropertySource<?>> streamFromIterator(Iterator<PropertySource<?>> iterator) {
         Iterable<PropertySource<?>> iterable = () -> iterator;
         return StreamSupport.stream(iterable.spliterator(), false);
     }
