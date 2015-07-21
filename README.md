@@ -9,7 +9,7 @@ Transparently decrypt property values to be used in spring environment using [ja
 
 ## Gradle dependency
 ```
-runtime('eu.hinsch:spring-properties-decrypter:0.1.8')
+runtime('eu.hinsch:spring-properties-decrypter:0.1.9')
 ```
 
 ## Maven dependency
@@ -17,7 +17,7 @@ runtime('eu.hinsch:spring-properties-decrypter:0.1.8')
 <dependency>
   <groupId>eu.hinsch</groupId>
   <artifactId>spring-properties-decrypter</artifactId>
-  <version>0.1.8</version>
+  <version>0.1.9</version>
 </dependency>
 ```
 
